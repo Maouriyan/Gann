@@ -14,7 +14,7 @@ sys.path.append('/../model')
 from model_Loader import CreateModel
 from Component import Tensor2Image
 sys.path.append('../util')
-from augmentation import *
+from argument import *
 
 if __name__ == "__main__":
 	opt = TestOptions().parse()
@@ -77,7 +77,7 @@ if __name__ == "__main__":
 
 		filename = "{}".format(filename)
 		path = os.path.join(opt.result_dir, filename)
-		result.save(path)
+		result.save(filename)
 		print(i)
 	print(total)
 	print(total/199)
