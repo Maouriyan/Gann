@@ -4,7 +4,7 @@ import torch
 import datetime
 
 now = datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
-checkpoints = './checkpoints'
+checkpoints = '/content/checkpoints'
 checkpoints = os.path.join(checkpoints, now)
 result = './result'
 result = os.path.join(result, now)
@@ -16,12 +16,12 @@ class BaseOptions(object):
 
     def initialize(self):
 
-        self.parser.add_argument('--dataroot', default='cfp-dataset/Data/Images', help='path to images (should have subfolder train and test)')
+        self.parser.add_argument('--dataroot', default='/content/cfp-dataset/Data/Images', help='path to images (should have subfolder train and test)')
         self.parser.add_argument("--testroot", default="my_own_dataset/Data/Images", help = "my own dataset for test")
         self.parser.add_argument('--input_nc', type=int, default=3, help='# of input image channels')
         self.parser.add_argument('--output_nc', type=int, default=3, help='# of output image channels')
 
-        self.parser.add_argument('--checkpoints_dir', type=str, default=checkpoints, help='models are saved here')
+        self.parser.add_argument('--checkpoints_dir', type=str, default='/content/checkpoints/', help='models are saved here')
         self.parser.add_argument('--pretrained_D', type=str, default='1800_net_D.path', help='the name of the pretrained discrimiator model to be loaded.')
         self.parser.add_argument('--pretrained_G', type=str, default='1800_net_G.path', help='the name of the pretrained generator model to be loaded.')
         self.parser.add_argument('--test_dir', type=str, default=result, help='the dir to save the result')
