@@ -10,6 +10,15 @@ sys.path.append('model')
 from model_Loader import CreateModel
 sys.path.append('util')
 from utils import error as err
+from pydrive.auth import GoogleAuth
+from pydrive.drive import GoogleDrive
+from google.colab import auth
+from oauth2client.client import GoogleCredentials
+
+auth.authenticate_user()
+gauth = GoogleAuth()
+gauth.credentials = GoogleCredentials.get_application_default()
+drive = GoogleDrive(gauth)
 if __name__ == "__main__":
 		opt = TrainOptions().parse()
 		data_loader = CreateDataLoader(opt)
@@ -44,6 +53,18 @@ if __name__ == "__main__":
 			#writer.add_summary(summary, epoch)
 			print('End of epoch {0} \t Time Taken: {1} sec\n'.format(epoch, time.time()-epoch_start_time))
 			model.module.save_result(epoch)
-			if epoch % opt.save_epoch_freq == 0:
+			if (epoch == 1800) or (epoch=10000):
 				print('Saving the model at the end of epoch {}\n'.format(epoch))
-				model.module.save(epoch)
+				model.save(epoch)
+				strinD = '{}_net_D.path'.format(epoch)
+				strinD_Path = '/content/single/{}_net_D.path'.format(epoch)
+				uploaded = drive.CreateFile({'title': strinD})
+				uploaded.SetContentFile(strinD_Path)
+				uploaded.Upload()
+				print('Uploaded file with ID {}'.format(uploaded.get('id')))
+				strinG = '{}_net_G.path'.format(epoch)
+				strinG_Path = '/content/single/{}_net_G.path'.format(epoch)
+				uploaded = drive.CreateFile({'title': strinG})
+				uploaded.SetContentFile(strinG_Path)
+				uploaded.Upload()
+				print('Uploaded file with ID {}'.format(uploaded.get('id')))
